@@ -1,0 +1,80 @@
+﻿
+<body>
+    <div class="bgis">
+        <div class="bgc bgs">
+            <div id="introBox">Canberra Restaurants</div>
+            <div id="quote"><h1>Customer Review</h1></div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-12 pb30">
+                <h2 style="padding-top:80px">Be the Critic</h2>
+                <p style="margin-left:10px">
+                    Have you been to a restaurant recently and loved it or loathed it?
+                    Then tell us all about it.
+                </p>
+                <p style="margin-left:10px">Find your inner restaurant critic and create an account to review your recent dining experience.</p>
+            </div>
+            <div class="col-md-6 col-sm-12 col-12 welcome-image pb30">
+                <div class="row centre p10">
+                    <div class="col-md-6 col-sm-6 col-6" style="background-size:90%"><img src="~/images/burger.jpeg" alt="Hamburger and Chips" /></div>
+                    <div class="col-md-6 col-sm-6 col-6" style="background-size:90%"><img src="~/images/pasta.jpeg" alt="Chicken pasta" /></div>
+                </div>
+            </div>
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="DiscussionForums" asp-action="Create" class="btn btn-info" style="margin-bottom:50px">Submit a Review</a>
+        }
+        else
+        {
+            @model IEnumerable<AspNetUserRolesEntityFramework.Models.DiscussionForum>
+
+            <p>
+                Please <a href="~/Identity/Account/Login?returnUrl=~/Home/Review">login</a> or
+                <a href="~/Identity/Account/Register?returnUrl=~/Home/Review">create an account</a>
+                to post your discussion on this page
+            </p>
+        }
+        @foreach (var item in Model)
+        {
+            <hr style="background-color:orange; height:2px; margin-bottom:50px" />
+            <h3>@Html.DisplayFor(modelItem => item.Heading)</h3>
+            <h5>@@@Html.DisplayFor(modelItem => item.TopicTitle)</h5>
+            <p>
+                @{
+                    for (int i = 0; i < item.Like; i++)
+                    {
+                        <span style="color: #f8bd08; font-size:25px ">&#x2605;</span>
+                    }
+                    for (int i = 0; i < 5 - item.Like; i++)
+                    {
+                        <span style="font-size:25px">&#x2606;</span>
+                    }
+                }
+
+            </p>
+            <p>@Html.DisplayFor(modelItem => item.MessageContent)</p>
+            <p>
+                Review by <b>@Html.DisplayFor(modelItem => item.UserName)</b> on
+                <b>@Html.DisplayFor(modelItem => item.PostDate)</b>
+            </p>
+                <div class="row">
+                    <div class="col-4">
+                        <a asp-controller="DiscussionForums" asp-action="Details" asp-route-id="@item.Id" class=" btn btn-light">Details</a>
+                        <a asp-controller="DiscussionForums" asp-action="Agree" asp-route-id="@item.Id" class=" btn btn-success">Agree (@Html.DisplayFor(modelItem => item.Agree))</a>
+                        <a asp-controller="DiscussionForums" asp-action="Disagree" asp-route-id="@item.Id" class=" btn btn-danger">Disagree (@Html.DisplayFor(modelItem => item.Disagree))</a>
+                    </div>
+                    <div class="col-6"></div>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <div class="col-2">
+                            <a asp-controller="DiscussionForums" asp-action="Edit" asp-route-id="@item.Id" class=" btn btn-light">Edit</a>
+                            <a asp-controller="DiscussionForums" asp-route-page="Review" asp-route-folder="Home" asp-action="Delete" asp-route-id="@item.Id" class=" btn btn-light">Delete</a>
+                        </div>
+                    }
+                </div>
+        }
+    </div>
+</body>

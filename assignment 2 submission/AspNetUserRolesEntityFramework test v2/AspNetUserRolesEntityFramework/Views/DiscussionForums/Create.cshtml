@@ -1,0 +1,65 @@
+﻿@model AspNetUserRolesEntityFramework.Models.DiscussionForum
+
+<body>
+    <div class="bgis">
+        <div class="bgc bgs">
+            <div id="introBox">Canberra Restaurants</div>
+            <div id="quote"><h1>Create a Review</h1></div>
+        </div>
+    </div>
+</body>
+
+<hr />
+<div class="row" style="margin-left:50px">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PostDate" class="control-label"></label>
+                <input asp-for="PostDate" class="form-control" readonly />
+                <span asp-validation-for="PostDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" readonly />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Heading" class="control-label"></label>
+                <input asp-for="Heading" class="form-control" placeholder="Enter a Heading" />
+                <span asp-validation-for="Heading" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopicTitle" class="control-label"></label>
+                <select asp-for="TopicTitle" class="form-control">
+                    <option value="" selected disabled>Select a Restaurant</option>
+                    <option>Belluci’s Italian</option>
+                    <option>Italian and Sons</option>
+                    <option>Blu Ginger</option>
+                    <option>Jewel of India</option>
+                    <option>Chairman & Yip</option>
+                    <option>Dickson Asian Noodle House</option>
+                </select>
+                <span asp-validation-for="TopicTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MessageContent" class="control-label"></label>
+                <textarea asp-for="MessageContent" class="form-control" rows="5" placeholder="Enter a Comment"></textarea>
+                <span asp-validation-for="MessageContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Like" class="control-label"></label>
+                <input asp-for="Like" class="form-control" />
+                <span asp-validation-for="Like" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+        <a asp-controller="Home" asp-action="Review">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
